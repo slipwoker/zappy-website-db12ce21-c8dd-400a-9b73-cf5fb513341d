@@ -532,14 +532,6 @@ Licensed & Insured      24/7 Emergency Service
 - [business_phone]
 - [business_address]
 
-#### Business Hours
-- Mon – Fri7:00 AM – 6:00 PM
-- Saturday8:00 AM – 4:00 PM
-- SundayClosed
-- [business_address]
-- [business_phone]
-- [business_email]
-
 ### Follow Us
 
 Stay connected for tips, updates, and special offers.
@@ -1093,14 +1085,6 @@ Licensed & Insured      24/7 Emergency Service
 - [business_phone]
 - [business_address]
 
-#### Business Hours
-- Mon – Fri7:00 AM – 6:00 PM
-- Saturday8:00 AM – 4:00 PM
-- SundayClosed
-- [business_address]
-- [business_phone]
-- [business_email]
-
 ### Follow Us
 
 Stay connected for tips, updates, and special offers.
@@ -1605,14 +1589,6 @@ Licensed & Insured      24/7 Emergency Service
 - [business_email]
 - [business_phone]
 - [business_address]
-
-#### Business Hours
-- Mon – Fri7:00 AM – 6:00 PM
-- Saturday8:00 AM – 4:00 PM
-- SundayClosed
-- [business_address]
-- [business_phone]
-- [business_email]
 
 ### Follow Us
 
@@ -2134,14 +2110,6 @@ Licensed & Insured      24/7 Emergency Service
 - [business_phone]
 - [business_address]
 
-#### Business Hours
-- Mon – Fri7:00 AM – 6:00 PM
-- Saturday8:00 AM – 4:00 PM
-- SundayClosed
-- [business_address]
-- [business_phone]
-- [business_email]
-
 ### Follow Us
 
 Stay connected for tips, updates, and special offers.
@@ -2339,14 +2307,6 @@ Licensed & Insured      24/7 Emergency Service
 - [business_email]
 - [business_phone]
 - [business_address]
-
-#### Business Hours
-- Mon – Fri7:00 AM – 6:00 PM
-- Saturday8:00 AM – 4:00 PM
-- SundayClosed
-- [business_address]
-- [business_phone]
-- [business_email]
 
 ### Follow Us
 
@@ -2551,14 +2511,6 @@ Licensed & Insured      24/7 Emergency Service
 - [business_email]
 - [business_phone]
 - [business_address]
-
-#### Business Hours
-- Mon – Fri7:00 AM – 6:00 PM
-- Saturday8:00 AM – 4:00 PM
-- SundayClosed
-- [business_address]
-- [business_phone]
-- [business_email]
 
 ### Follow Us
 
@@ -2785,14 +2737,6 @@ Licensed & Insured      24/7 Emergency Service
 - [business_email]
 - [business_phone]
 - [business_address]
-
-#### Business Hours
-- Mon – Fri7:00 AM – 6:00 PM
-- Saturday8:00 AM – 4:00 PM
-- SundayClosed
-- [business_address]
-- [business_phone]
-- [business_email]
 
 ### Follow Us
 
