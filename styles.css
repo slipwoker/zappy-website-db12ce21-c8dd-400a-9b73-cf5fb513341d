@@ -3579,12 +3579,12 @@ html[dir="rtl"] .footer-contact li > a { flex-direction: row !important; }
   z-index: 1;
 }
 
-/* Overline label */
 .services-intro-section .services-intro-overline {
   display: inline-flex;
   align-items: center;
   gap: 10px;
   margin-bottom: 24px;
+  justify-content: center;
 }
 
 .services-intro-section .overline-rule {
