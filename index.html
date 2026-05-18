@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <title>action plumbing heating and air — Lone Star Plumbing Co.</title>
+    <meta name="description" content="When pipes burst and time is critical, Lone Star Plumbing Co. delivers action plumbing heating and air solutions fast. Trusted Texas experts ready 24/7 — call now!">
+    <meta name="keywords" content="action plumbing heating and air, emergency plumbing Texas, residential plumbing services, local plumber Texas, 24/7 plumbing repair">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- Zappy Analytics -->
+<script>
+(function() {
+  'use strict';
+  
+  // Configuration
+  var config = {
+    websiteId: 'db12ce21-c8dd-400a-9b73-cf5fb513341d',
+    apiUrl: 'https://api.zappy5.com/api/analytics/track',
+    sessionDuration: 30 * 60 * 1000, // 30 minutes
+    visitorDuration: 30 * 24 * 60 * 60 * 1000, // 30 days
+    trackPageViews: true,
+    trackClicks: true,
+    trackFormSubmissions: true
+  };
+  
+  // Generate or retrieve persistent visitor ID (30 days)
+  function getVisitorId() {
+    var visitorKey = 'zappy_visitor_' + config.websiteId;
+    var visitor = null;
+    
+    try {
+      visitor = localStorage.getItem(visitorKey);
+      if (visitor) {
+        var visitorData = JSON.parse(visitor);
+        var now = Date.now();
+        
+        // Check if visitor ID is still valid (30 days)
+        if (now - visitorData.created < config.visitorDuration) {
+          // Update last seen timestamp
+          visitorData.lastSeen = now;
+          localStorage.setItem(visitorKey, JSON.stringify(visitorData));
+          return visitorData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: LocalStorage not available');
+    }
+    
+    // Generate new visitor ID
+    var newVisitorId = 'zv_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      localStorage.setItem(visitorKey, JSON.stringify({
+        id: newVisitorId,
+        created: Date.now(),
+        lastSeen: Date.now()
+      }));
+    } catch (e) {
+      // Continue without local storage
+    }
+    
+    return newVisitorId;
+  }
+  
+  // Generate or retrieve session ID (30 minutes)
+  function getSessionId() {
+    var sessionKey = 'zappy_session_' + config.websiteId;
+    var session = null;
+    
+    try {
+      session = sessionStorage.getItem(sessionKey);
+      if (session) {
+        var sessionData = JSON.parse(session);
+        var now = Date.now();
+        
+        // Check if session is still valid
+        if (now - sessionData.timestamp < config.sessionDuration) {
+          // Update timestamp
+          sessionData.timestamp = now;
+          sessionStorage.setItem(sessionKey, JSON.stringify(sessionData));
+          return sessionData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: SessionStorage not available');
+    }
+    
+    // Generate new session ID
+    var newSessionId = 'zs_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      sessionStorage.setItem(sessionKey, JSON.stringify({
+        id: newSessionId,
+        timestamp: Date.now()
+      }));
+    } catch (e) {
+      // Continue without session storage
+    }
+    
+    return newSessionId;
+  }
+  
+  var visitorId = getVisitorId();
+  var sessionId = getSessionId();
+  
+  // Track an event
+  function trackEvent(eventType, data) {
+    data = data || {};
+    
+    var eventData = {
+      website_id: config.websiteId,
+      event_type: eventType,
+      page_path: window.location.pathname,
+      referrer: document.referrer || 'direct',
+      visitor_id: visitorId,
+      session_id: sessionId,
+      metadata: data
+    };
+    
+    // Use sendBeacon if available (better for page unload events)
+    if (navigator.sendBeacon) {
+      var blob = new Blob([JSON.stringify(eventData)], { type: 'application/json' });
+      navigator.sendBeacon(config.apiUrl, blob);
+    } else {
+      // Fallback to fetch
+      fetch(config.apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(eventData),
+        keepalive: true
+      }).catch(function(error) {
+        console.warn('Zappy Analytics: Failed to track event', error);
+      });
+    }
+  }
+  
+  // Track page view
+  if (config.trackPageViews) {
+    trackEvent('pageview', {
+      title: document.title,
+      url: window.location.href
+    });
+  }
+  
+  // Track clicks on important elements
+  if (config.trackClicks) {
+    document.addEventListener('click', function(e) {
+      var target = e.target;
+      
+      // Track button clicks (counted as actions)
+      if (target.tagName === 'BUTTON' || target.closest('button')) {
+        var button = target.tagName === 'BUTTON' ? target : target.closest('button');
+        trackEvent('click', {
+          element: 'button',
+          text: button.textContent.trim().substring(0, 100),
+          id: button.id || null,
+          class: button.className || null
+        });
+      }
+      
+      // Track link clicks (navigation - not counted as actions)
+      else if (target.tagName === 'A' || target.closest('a')) {
+        var link = target.tagName === 'A' ? target : target.closest('a');
+        trackEvent('navigation', {
+          element: 'link',
+          text: link.textContent.trim().substring(0, 100),
+          href: link.href,
+          external: link.hostname !== window.location.hostname
+        });
+      }
+    }, true);
+  }
+  
+  // Track form submissions
+  if (config.trackFormSubmissions) {
+    document.addEventListener('submit', function(e) {
+      var form = e.target;
+      
+      trackEvent('form_submit', {
+        form_id: form.id || null,
+        form_name: form.name || null,
+        form_action: form.action || null,
+        form_method: form.method || 'GET'
+      });
+    }, true);
+  }
+  
+  // Track time on page (send on page unload)
+  var pageLoadTime = Date.now();
+  
+  window.addEventListener('beforeunload', function() {
+    var timeOnPage = Math.floor((Date.now() - pageLoadTime) / 1000); // in seconds
+    
+    trackEvent('page_unload', {
+      time_on_page: timeOnPage,
+      page_path: window.location.pathname
+    });
+  });
+  
+  // Expose tracking function globally for custom events
+  window.zappyAnalytics = {
+    track: trackEvent,
+    getVisitorId: function() { return visitorId; },
+    getSessionId: function() { return sessionId; }
+  };
+  
+})();
+</script>
+<!-- End Zappy Analytics -->
+    <meta property="og:title" content="action plumbing heating and air — Lone Star Plumbing Co.">
+    <meta property="og:description" content="When pipes burst and time is critical, Lone Star Plumbing Co. delivers action plumbing heating and air solutions fast. Trusted Texas experts ready 24/7 — call now!">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="action plumbing heating and air — Lone Star Plumbing Co.">
+    <meta name="twitter:description" content="When pipes burst and time is critical, Lone Star Plumbing Co. delivers action plumbing heating and air solutions fast. Trusted Texas experts ready 24/7 — call now!">
+    <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .skip-link { position: absolute; top: 0; left: 0; transform: translateY(-200%); padding: 12px 18px; background: var(--bg-dark, #1a1a1a); color: var(--text-light, #fff); font-weight: 600; border-radius: 0 0 8px 0; z-index: 10000; }
+    .skip-link:focus { transform: none; outline: 2px solid var(--ring, #fff); outline-offset: 2px; }
+    :focus-visible { outline: 2px solid var(--ring, currentColor); outline-offset: 3px; }
+  </style>
+
+
+  
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- Cookie Consent -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css">
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
+    <!-- Mickidum Accessibility Toolbar -->
+    <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script>
+    <link rel="stylesheet" href="/styles.css">
+
+    <style id="zappy-dropdown-submenu-styles">
+      /* ========== DESKTOP DROPDOWN SUBMENU STYLES ========== */
+      /* Base styles for dropdown submenus - parent must be positioned */
+      .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { position: relative; }
+      /* Submenu base - hidden by default */
+      .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { display: block !important; position: absolute !important; top: 100%; left: 0; min-width: 220px; background: white; border-radius: 8px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; z-index: 1000; list-style: none; pointer-events: none; }
+      /* CRITICAL: Desktop hover styles to show dropdown */
+      .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Submenu item styling */
+      .sub-menu li { list-style: none; margin: 0; padding: 0; }
+      .sub-menu a { display: block !important; padding: 10px 16px !important; color: var(--text-dark, #333) !important; font-weight: 500; text-decoration: none; white-space: nowrap; transition: background-color 0.2s; }
+      .sub-menu .zappy-nav-child > a { padding-left: 28px !important; font-size: 0.9em !important; opacity: 0.85 !important; }
+      [dir="rtl"] .sub-menu .zappy-nav-child > a, html[lang="he"] .sub-menu .zappy-nav-child > a, html[lang="ar"] .sub-menu .zappy-nav-child > a { padding-left: 10px !important; padding-right: 28px !important; }
+      .sub-menu .zappy-nav-parent > a { font-weight: 600 !important; }
+      .sub-menu a:hover { background-color: #f5f5f5; }
+      /* RTL (Hebrew/Arabic) dropdown positioning */
+      [dir="rtl"] .nav-menu .sub-menu, [dir="rtl"] nav .sub-menu, [dir="rtl"] .navbar .sub-menu, html[lang="he"] .nav-menu .sub-menu, html[lang="he"] nav .sub-menu, html[lang="he"] .navbar .sub-menu, html[lang="ar"] .nav-menu .sub-menu, html[lang="ar"] nav .sub-menu, html[lang="ar"] .navbar .sub-menu { left: auto !important; right: 0 !important; }
+      /* Hide empty dropdown menus (exclude catalog sub-menus that use <a> children instead of <li>) */
+      .sub-menu:empty, .sub-menu:not(:has(li:not(.zappy-hidden-menu-item))):not(:has(> a)), .sub-menu:not(:has(li)):not(:has(> a)) { display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
+      /* Desktop: show submenu on Menu Group hover */
+      li:has(.menu-group-title):hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Menu Group title styling */
+      .nav-menu > li > .menu-group-title, #navMenu > li > .menu-group-title { display: inline-block; padding: 0.5rem 1rem; cursor: default; user-select: none; }
+      
+      /* ========== MOBILE SUBMENU STYLES ========== */
+      @media (max-width: 768px) {
+        .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { position: static !important; transform: none !important; box-shadow: none !important; background: transparent !important; max-height: 0; overflow: hidden; opacity: 0; visibility: hidden; transition: max-height 0.3s ease, opacity 0.3s ease; padding: 0 !important; border-radius: 0 !important; }
+        .navbar .sub-menu.mobile-expanded, .nav-menu .sub-menu.mobile-expanded, #navMenu .sub-menu.mobile-expanded { max-height: none !important; overflow-y: visible !important; opacity: 1 !important; visibility: visible !important; padding: 8px 0 8px 16px !important; }
+        [dir="rtl"] .sub-menu.mobile-expanded, html[lang="he"] .sub-menu.mobile-expanded { padding: 8px 16px 8px 0 !important; }
+        /* Disable hover behavior on mobile */
+        .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 0; visibility: hidden; pointer-events: none; }
+        .nav-menu li > .sub-menu.mobile-expanded, nav li > .sub-menu.mobile-expanded, .navbar li > .sub-menu.mobile-expanded, #navMenu li > .sub-menu.mobile-expanded { opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
+        .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { display: flex !important; flex-wrap: wrap !important; align-items: center !important; position: relative !important; min-height: 44px !important; }
+        .nav-menu li:has(.sub-menu) > a, nav li:has(.sub-menu) > a, .navbar li:has(.sub-menu) > a, #navMenu li:has(.sub-menu) > a { flex: 1 !important; min-width: 0 !important; }
+        .nav-menu li:has(.sub-menu) > .menu-group-title, nav li:has(.sub-menu) > .menu-group-title, .navbar li:has(.sub-menu) > .menu-group-title, #navMenu li:has(.sub-menu) > .menu-group-title { flex: 1 !important; min-width: 0 !important; padding: 0 !important; line-height: inherit !important; }
+        .nav-menu li:has(.sub-menu) > .sub-menu, nav li:has(.sub-menu) > .sub-menu, .navbar li:has(.sub-menu) > .sub-menu, #navMenu li:has(.sub-menu) > .sub-menu { flex-basis: 100% !important; width: 100% !important; }
+        .nav-menu li:has(.sub-menu) > a [class*="chevron"], .nav-menu li:has(.sub-menu) > a [class*="arrow"], .nav-menu li:has(.sub-menu) > a .fa-chevron-down, .nav-menu li:has(.sub-menu) > a .fa-angle-down, nav li:has(.sub-menu) > a [class*="chevron"], nav li:has(.sub-menu) > a [class*="arrow"], #navMenu li:has(.sub-menu) > a [class*="chevron"], #navMenu li:has(.sub-menu) > a [class*="arrow"] { display: none !important; visibility: hidden !important; }
+        .mobile-submenu-toggle { display: flex !important; align-items: center !important; justify-content: center !important; width: 44px !important; height: auto !important; background: transparent !important; border: none !important; cursor: pointer !important; color: var(--text-dark) !important; position: static !important; flex-shrink: 0 !important; align-self: stretch !important; z-index: 2 !important; padding: 0 !important; margin: 0 !important; }
+        .mobile-submenu-toggle::after { content: '' !important; width: 0 !important; height: 0 !important; border-left: 6px solid transparent !important; border-right: 6px solid transparent !important; border-top: 7px solid currentColor !important; transition: transform 0.3s ease !important; }
+        .mobile-submenu-toggle.expanded::after { transform: rotate(180deg) !important; }
+        .sub-menu a { padding: 10px 0 !important; display: block !important; color: var(--text-dark) !important; white-space: normal !important; }
+        .sub-menu .zappy-nav-child > a { padding-left: 28px !important; font-size: 0.9em !important; opacity: 0.85 !important; }
+        [dir="rtl"] .sub-menu .zappy-nav-child > a, html[lang="he"] .sub-menu .zappy-nav-child > a, html[lang="ar"] .sub-menu .zappy-nav-child > a { padding-left: 0 !important; padding-right: 28px !important; }
+        .sub-menu .zappy-nav-parent > a { font-weight: 600 !important; }
+        .nav-menu.active, #navMenu.active { max-width: 100vw !important; overflow-x: hidden !important; box-sizing: border-box !important; }
+        .navbar .sub-menu li a, nav.navbar .sub-menu li a, .zappy-products-dropdown .sub-menu a { color: var(--text-dark) !important; }
+      }
+      @media (min-width: 769px) { .mobile-submenu-toggle { display: none !important; } }
+    </style>
+
+    <style id="zappy-widget-visibility">
+      html[dir="rtl"] .whatsapp-float { right: 20px !important; left: auto !important; }
+      html[dir="ltr"] .whatsapp-float, html:not([dir]) .whatsapp-float { left: 20px !important; right: auto !important; }
+      html[dir="rtl"] #mic-access-tool-general-button, html[dir="rtl"] .mic-access-tool-general-button,
+      html[dir="rtl"] #mic-init-access-tool .mic-access-tool-general-button,
+      html[dir="rtl"] #mic-init-access-tool #mic-access-tool-general-button,
+      html[dir="rtl"] ._access-icon { left: 20px !important; right: auto !important; }
+      html[dir="ltr"] #mic-access-tool-general-button, html[dir="ltr"] .mic-access-tool-general-button,
+      html[dir="ltr"] #mic-init-access-tool .mic-access-tool-general-button,
+      html[dir="ltr"] #mic-init-access-tool #mic-access-tool-general-button,
+      html[dir="ltr"] ._access-icon,
+      html:not([dir]) #mic-access-tool-general-button, html:not([dir]) .mic-access-tool-general-button,
+      html:not([dir]) #mic-init-access-tool .mic-access-tool-general-button,
+      html:not([dir]) #mic-init-access-tool #mic-access-tool-general-button,
+      html:not([dir]) ._access-icon { right: 20px !important; left: auto !important; }
+      @media (max-width: 768px) { .whatsapp-float { display: flex !important; } }
+      @media (min-width: 769px) { .whatsapp-float { display: flex !important; } }
+      @media (max-width: 768px) {
+        #mic-access-tool-general-button, .mic-access-tool-general-button,
+        #mic-init-access-tool .mic-access-tool-general-button, #mic-init-access-tool #mic-access-tool-general-button,
+        ._access-icon { display: flex !important; visibility: visible !important; opacity: 1 !important; pointer-events: auto !important; }
+        #mic-access-tool-box.opened-mic-access-tool, .mic-access-tool-box.opened-mic-access-tool,
+        #mic-init-access-tool #mic-access-tool-box.opened-mic-access-tool {
+          visibility: visible !important; opacity: 1 !important; pointer-events: auto !important;
+        }
+      }
+      @media (min-width: 769px) {
+        #mic-access-tool-general-button, .mic-access-tool-general-button,
+        #mic-init-access-tool .mic-access-tool-general-button, #mic-init-access-tool #mic-access-tool-general-button,
+        ._access-icon { display: flex !important; visibility: visible !important; opacity: 1 !important; pointer-events: auto !important; }
+        #mic-access-tool-box.opened-mic-access-tool, .mic-access-tool-box.opened-mic-access-tool,
+        #mic-init-access-tool #mic-access-tool-box.opened-mic-access-tool {
+          visibility: visible !important; opacity: 1 !important; pointer-events: auto !important;
+        }
+      }
+    </style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+  <nav class="navbar">
+  <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+    <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+    <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" style="display: none;">
+      <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+  </button>
+
+  <button class="phone-header-btn" data-phone="[business_phone]" aria-label="Call">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+    </svg>
+  </button>
+
+  <div class="nav-container">
+    <div class="nav-brand">
+      <a href="/" class="logo-link"><img class="logo" src="/assets/site-home-image-1.webp" alt="Lone Star Plumbing Co."></a>
+    </div>
+
+    <ul class="nav-menu" id="navMenu"><li><a href="/">Home</a></li><li><a href="/services">Services</a></li><li><a href="/about">About</a></li></ul>
+
+    <div class="nav-cta-container">
+      <a href="/contact" class="nav-cta-btn">Contact</a>
+    </div>
+  </div>
+</nav>
+<script>
+
+// Navbar Mobile Menu Toggle and Contrast Fix
+(function() {
+  // Use 'load' event instead of 'DOMContentLoaded' to ensure we run AFTER all other scripts
+  window.addEventListener('load', function() {
+    
+    // FIX MOBILE BUTTON CONTRAST
+    // Detect navbar background color and apply contrasting color to mobile buttons
+    const navbar = document.querySelector('.navbar, nav, header');
+    if (!navbar) {
+      console.log('[Navbar] Navbar element not found');
+      return;
+    }
+    
+    // DECLARE VARIABLES EARLY to avoid Temporal Dead Zone errors
+    // These are used in multiple places below
+    let mobileToggle = document.getElementById('mobileToggle') ||
+                       document.querySelector('.mobile-toggle') ||
+                       document.querySelector('.hamburger') ||
+                       document.querySelector('.hamburger-menu') ||
+                       document.querySelector('.menu-toggle') ||
+                       document.querySelector('.burger-menu') ||
+                       document.querySelector('[aria-label="Menu"]') ||
+                       document.querySelector('[aria-label="תפריט"]');
+    
+    const phoneBtn = document.querySelector('.phone-header-btn');
+    
+    const computedStyle = window.getComputedStyle(navbar);
+    let bgColor = computedStyle.backgroundColor;
+    
+    console.log('[Navbar] Initial navbar background:', bgColor);
+    
+    // Check if background is transparent or rgba with 0 alpha
+    const isTransparent = bgColor === 'transparent' || 
+                         bgColor === 'rgba(0, 0, 0, 0)' ||
+                         (bgColor.startsWith('rgba') && bgColor.includes(', 0)'));
+    
+    if (isTransparent) {
+      // Check for background-image or gradient
+      const bgImage = computedStyle.backgroundImage;
+      if (bgImage && bgImage !== 'none') {
+        console.log('[Navbar] Navbar has background image/gradient, using dark text');
+        bgColor = 'rgb(240, 240, 240)'; // Assume light background
+      } else {
+        // Transparent navbar - check body background
+        const bodyBg = window.getComputedStyle(document.body).backgroundColor;
+        console.log('[Navbar] Navbar transparent, using body background:', bodyBg);
+        bgColor = bodyBg;
+      }
+    }
+    
+    // Calculate luminance to determine if background is light or dark
+    const rgb = bgColor.match(/\d+/g);
+    if (rgb && rgb.length >= 3) {
+      const r = parseInt(rgb[0]);
+      const g = parseInt(rgb[1]);
+      const b = parseInt(rgb[2]);
+      const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+      
+      // Mobile button colors are set by Claude's AI-generated CSS (same as .nav-menu a)
+      // No dynamic color overrides needed - colors come from the generated navbar CSS
+      console.log('[Navbar] Mobile button colors preserved from Claude CSS (luminance:', luminance.toFixed(2) + ')');
+      
+      // FIX ICON SIZES - Ensure SVGs are properly sized and visible
+      // INJECT CRITICAL CSS TO OVERRIDE ANY CONFLICTING RULES
+      const criticalCSS = document.createElement('style');
+      criticalCSS.id = 'zappy-mobile-nav-fix';
+      const htmlLang = document.documentElement.lang || 'en';
+      const htmlDir = document.documentElement.dir || 'ltr';
+      // Check both dir attribute AND lang for RTL detection
+      // dir="rtl" is the most reliable indicator
+      const isRTL = htmlDir === 'rtl' || htmlLang === 'he' || htmlLang === 'ar';
+      
+      criticalCSS.textContent = `
+        /* Hide mobile buttons on desktop, show only on mobile */
+        @media (min-width: 769px) {
+          .mobile-toggle,
+          .phone-header-btn {
+            display: none !important;
+          }
+        }
+        
+        /* Show and position mobile buttons correctly on mobile */
+        @media (max-width: 768px) {
+          .navbar,
+          nav.navbar {
+            min-height: 70px !important;
+          }
+
+          .mobile-toggle,
+          .phone-header-btn {
+            position: absolute !important;
+            top: 0 !important;
+            bottom: 0 !important;
+            margin-top: auto !important;
+            margin-bottom: auto !important;
+            transform: none !important;
+            z-index: 1001 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 36px !important;
+            height: 36px !important;
+            border-radius: 50% !important;
+            border: none !important;
+            cursor: pointer !important;
+            padding: 6px !important;
+            background: none !important;
+            color: var(--nav-text, var(--text-dark)) !important;
+            touch-action: manipulation !important;
+            -webkit-tap-highlight-color: transparent !important;
+          }
+
+          html[data-zappy-site-type="ecommerce"] .phone-header-btn,
+          body[data-zappy-site-type="ecommerce"] .phone-header-btn,
+          html[data-zappy-site-type="ecommerce"] header .phone-header-btn,
+          html[data-zappy-site-type="ecommerce"] nav .phone-header-btn {
+            display: none !important;
+            visibility: hidden !important;
+            width: 0 !important;
+            height: 0 !important;
+            min-width: 0 !important;
+            overflow: hidden !important;
+          }
+          
+          /* LTR positioning (default): hamburger LEFT, phone RIGHT */
+          html:not([dir="rtl"]):not([lang="he"]):not([lang="ar"]) .mobile-toggle,
+          html[dir="ltr"] .mobile-toggle {
+            left: 12px !important;
+            right: auto !important;
+          }
+          html:not([dir="rtl"]):not([lang="he"]):not([lang="ar"]) .phone-header-btn,
+          html[dir="ltr"] .phone-header-btn {
+            right: 12px !important;
+            left: auto !important;
+          }
+          
+          /* RTL positioning: hamburger RIGHT, phone LEFT */
+          html[dir="rtl"] .mobile-toggle,
+          html[lang="he"] .mobile-toggle,
+          html[lang="ar"] .mobile-toggle {
+            right: 12px !important;
+            left: auto !important;
+          }
+          html[dir="rtl"] .phone-header-btn,
+          html[lang="he"] .phone-header-btn,
+          html[lang="ar"] .phone-header-btn {
+            left: 12px !important;
+            right: auto !important;
+          }
+          
+          /* CRITICAL: Ensure nav-container has min-height on mobile */
+          /* All children are positioned absolutely/fixed on mobile, so height:auto collapses to 0 */
+          .nav-container {
+            min-height: 70px !important;
+            position: relative !important;
+          }
+          
+          /* Ensure SVG icons are properly sized and inherit color */
+          .mobile-toggle svg,
+          .phone-header-btn svg {
+            width: 24px !important;
+            height: 24px !important;
+            /* Don't force display - let JavaScript control hamburger/close toggle */
+          }
+          
+          /* Reset nav-cta-container on mobile - remove desktop box-shadow/padding */
+          /* that creates a visible ghost box when CTA button is hidden */
+          .nav-cta-container {
+            box-shadow: none !important;
+            padding: 0 !important;
+          }
+          
+          /* Hide nav-cta-container entirely on mobile when there's no lang-switcher */
+          /* (only the CTA button is inside, and it's hidden on mobile) */
+          .nav-cta-container:not(:has(.lang-switcher)) {
+            display: none !important;
+          }
+          
+          /* CRITICAL: Prevent hero image fade gradient from bleeding over headline text */
+          /* The .image-fade-gradient has bottom: -30px (extends below parent) */
+          /* On mobile stacked layout, this overlaps the h1 text below the image */
+          .hero-image-column {
+            overflow: hidden !important;
+          }
+          .image-fade-gradient {
+            bottom: 0 !important;
+          }
+          
+          /* Hide desktop language switcher on mobile - hamburger menu handles it */
+          /* High specificity to override stored CSS */
+          .lang-switcher,
+          .nav-cta-container .lang-switcher,
+          .nav-container .lang-switcher,
+          .navbar .lang-switcher,
+          .navbar .nav-cta-container .lang-switcher {
+            display: none !important;
+          }
+        }
+      `;
+      
+      // Remove existing fix if present and inject new one
+      const existing = document.getElementById('zappy-mobile-nav-fix');
+      if (existing) existing.remove();
+      document.head.appendChild(criticalCSS);
+      
+      console.log('[Navbar] Critical CSS injected for mobile nav positioning');
+      
+      // ONLY apply inline positioning styles on mobile viewport
+      // On desktop, the CSS handles hiding these buttons with display: none
+      // Inline styles were breaking desktop layout by overriding CSS
+      const isMobileViewport = window.innerWidth <= 768;
+      
+      if (mobileToggle) {
+        // Icon sizing applies to all viewports for consistency
+        const hamburgerIcon = mobileToggle.querySelector('.hamburger-icon');
+        const closeIcon = mobileToggle.querySelector('.close-icon');
+        
+        if (hamburgerIcon) {
+          hamburgerIcon.style.setProperty('width', '24px', 'important');
+          hamburgerIcon.style.setProperty('height', '24px', 'important');
+          hamburgerIcon.style.setProperty('display', 'block', 'important'); // Show hamburger by default
+        }
+        if (closeIcon) {
+          closeIcon.style.setProperty('width', '24px', 'important');
+          closeIcon.style.setProperty('height', '24px', 'important');
+          closeIcon.style.setProperty('display', 'none', 'important'); // Hide close icon by default
+        }
+        
+        // ONLY set positioning inline styles on mobile
+        if (isMobileViewport) {
+          mobileToggle.style.setProperty('position', 'absolute', 'important');
+          mobileToggle.style.setProperty('top', '0', 'important');
+          mobileToggle.style.setProperty('bottom', '0', 'important');
+          mobileToggle.style.setProperty('margin-top', 'auto', 'important');
+          mobileToggle.style.setProperty('margin-bottom', 'auto', 'important');
+          mobileToggle.style.setProperty('transform', 'none', 'important');
+          mobileToggle.style.setProperty('z-index', '1001', 'important');
+          
+          // Clear any inline left/right so CSS can take over based on html[dir]
+          mobileToggle.style.removeProperty('left');
+          mobileToggle.style.removeProperty('right');
+          
+          console.log('[Navbar] Mobile toggle positioning applied (mobile viewport)');
+        } else {
+          // On desktop, clear any positioning styles to let CSS handle it
+          mobileToggle.style.removeProperty('position');
+          mobileToggle.style.removeProperty('top');
+          mobileToggle.style.removeProperty('transform');
+          mobileToggle.style.removeProperty('z-index');
+          mobileToggle.style.removeProperty('left');
+          mobileToggle.style.removeProperty('right');
+          console.log('[Navbar] Desktop viewport - cleared mobile toggle inline positioning');
+        }
+      }
+      
+      if (phoneBtn) {
+        // Icon sizing applies to all viewports
+        const phoneIcon = phoneBtn.querySelector('svg');
+        if (phoneIcon) {
+          phoneIcon.style.width = '24px';
+          phoneIcon.style.height = '24px';
+          phoneIcon.setAttribute('width', '24');
+          phoneIcon.setAttribute('height', '24');
+        }
+        
+        // ONLY set positioning inline styles on mobile
+        if (isMobileViewport) {
+          phoneBtn.style.setProperty('position', 'absolute', 'important');
+          phoneBtn.style.setProperty('top', '0', 'important');
+          phoneBtn.style.setProperty('bottom', '0', 'important');
+          phoneBtn.style.setProperty('margin-top', 'auto', 'important');
+          phoneBtn.style.setProperty('margin-bottom', 'auto', 'important');
+          phoneBtn.style.setProperty('transform', 'none', 'important');
+          phoneBtn.style.setProperty('z-index', '1001', 'important');
+          
+          // Clear any inline left/right so CSS can take over based on html[dir]
+          phoneBtn.style.removeProperty('left');
+          phoneBtn.style.removeProperty('right');
+          
+          console.log('[Navbar] Phone button positioning applied (mobile viewport)');
+        } else {
+          // On desktop, clear any positioning styles to let CSS handle it
+          phoneBtn.style.removeProperty('position');
+          phoneBtn.style.removeProperty('top');
+          phoneBtn.style.removeProperty('transform');
+          phoneBtn.style.removeProperty('z-index');
+          phoneBtn.style.removeProperty('left');
+          phoneBtn.style.removeProperty('right');
+          console.log('[Navbar] Desktop viewport - cleared phone button inline positioning');
+        }
+      }
+    } else {
+      console.log('[Navbar] Could not parse background color:', bgColor);
+    }
+    
+    // MOBILE MENU TOGGLE
+    // Re-query in case DOM changed (mobileToggle already declared at top of function)
+    mobileToggle = document.getElementById('mobileToggle') ||
+                   document.querySelector('.mobile-toggle') ||
+                   document.querySelector('.hamburger') ||
+                   document.querySelector('.hamburger-menu') ||
+                   document.querySelector('.menu-toggle') ||
+                   document.querySelector('.burger-menu') ||
+                   document.querySelector('[aria-label="Menu"]') ||
+                   document.querySelector('[aria-label="תפריט"]');
+    
+    // EXPANDED SEARCH: Find nav menu by ID or class
+    const navMenu = document.getElementById('navMenu') ||
+                  document.querySelector('.nav-menu') ||
+                  document.querySelector('.nav-links') ||
+                  document.querySelector('nav ul:not(.submenu)');
+    
+    if (!mobileToggle || !navMenu) {
+      console.log('[Navbar] Mobile toggle or menu not found:', { toggle: !!mobileToggle, menu: !!navMenu });
+      return;
+    }
+    
+    // Ensure navMenu has ID for CSS targeting
+    if (!navMenu.id) {
+      navMenu.id = 'navMenu';
+    }
+    
+    console.log('[Navbar] Initializing mobile menu...');
+    
+    // Remove any existing event listeners by cloning the button
+    const newToggle = mobileToggle.cloneNode(true);
+    mobileToggle.parentNode.replaceChild(newToggle, mobileToggle);
+    
+    // Toggle menu handler (shared by click and touchend)
+    function handleToggle(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const hamburgerIcon = newToggle.querySelector('.hamburger-icon');
+      const closeIcon = newToggle.querySelector('.close-icon');
+      const isActive = navMenu.classList.contains('active');
+      
+      if (isActive) {
+        // Close menu
+        navMenu.classList.remove('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'block', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'none', 'important');
+        document.body.style.overflow = '';
+        console.log('[Navbar] Menu closed');
+      } else {
+        // Open menu
+        navMenu.classList.add('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'none', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'block', 'important');
+        document.body.style.overflow = 'hidden';
+        console.log('[Navbar] Menu opened');
+      }
+    }
+    
+    // Use click for desktop/emulation and touchend as iOS Safari fallback.
+    // Prevent double-fire with a timestamp guard.
+    var lastToggleTime = 0;
+    function guardedToggle(e) {
+      var now = Date.now();
+      if (now - lastToggleTime < 300) return;
+      lastToggleTime = now;
+      handleToggle(e);
+    }
+    
+    newToggle.addEventListener('click', guardedToggle);
+    newToggle.addEventListener('touchend', guardedToggle);
+    
+    // Close menu when clicking nav links (but NOT dropdown toggles)
+    const navLinks = navMenu.querySelectorAll('a');
+    navLinks.forEach(function(link) {
+      link.addEventListener('click', function() {
+        // Don't close if it's a dropdown child (unless it's a real navigation link)
+        if (this.getAttribute('href') === '#') return;
+        
+        const hamburgerIcon = newToggle.querySelector('.hamburger-icon');
+        const closeIcon = newToggle.querySelector('.close-icon');
+        
+        navMenu.classList.remove('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'block', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'none', 'important');
+        document.body.style.overflow = '';
+        console.log('[Navbar] Menu closed (link clicked)');
+      });
+    });
+    
+    // DROPDOWN MENU TOGGLE (for mobile and touch devices)
+    var dropdownToggles = navMenu.querySelectorAll('.dropdown-toggle');
+    dropdownToggles.forEach(function(toggle) {
+      toggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var parent = this.closest('.nav-dropdown');
+        if (!parent) return;
+        
+        // Close other open dropdowns at the same level
+        var siblings = parent.parentNode.querySelectorAll('.nav-dropdown.open');
+        siblings.forEach(function(sib) {
+          if (sib !== parent) sib.classList.remove('open');
+        });
+        
+        parent.classList.toggle('open');
+        console.log('[Navbar] Dropdown toggled:', parent.classList.contains('open') ? 'open' : 'closed');
+      });
+    });
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.nav-dropdown')) {
+        var openDropdowns = document.querySelectorAll('.nav-dropdown.open');
+        openDropdowns.forEach(function(dd) { dd.classList.remove('open'); });
+      }
+    });
+    
+    console.log('[Navbar] Dropdown handlers initialized for ' + dropdownToggles.length + ' dropdowns');
+    
+    // Phone button functionality (phoneBtn already declared at top of function)
+    if (phoneBtn) {
+      phoneBtn.addEventListener('click', function() {
+        // Get phone number from placeholder in page or use default
+        const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
+        const phoneNumber = phoneLinks.length > 0 
+          ? phoneLinks[0].getAttribute('href').replace('tel:', '')
+          : '[business_phone]';
+        
+        window.location.href = 'tel:' + phoneNumber;
+        console.log('[Navbar] Phone button clicked');
+      });
+    }
+    
+    console.log('[Navbar] Mobile menu initialized successfully');
+    
+    // WhatsApp button visibility is now controlled via CSS (siteSettings).
+    // No JS-based desktop hiding — the button is visible on both mobile and desktop by default.
+  });
+})();
+
+</script>
+  
+  <main id="main">
+    <section data-band-index="0" class="home-hero-section" data-layout-spec="Home-hero" data-hero-type="fullscreen-scrim">
+  <!-- Background image layer -->
+  <div class="home-hero-bg" aria-hidden="true">
+    <img loading="eager" fetchpriority="high" data-hero-bg="true" data-placeholder="home-hero-image-1" data-context="Cinematic wide-angle photograph of a quiet Texas residential street at golden morning light. A clean white service van with subtle branding is parked in front of a well-kept craftsman-style home. Warm amber sunlight rakes across manicured lawns and mature oak trees. The sky is pale blue with soft golden haze near the horizon. The mood is trustworthy, calm, and professional — evoking a dependable local service company arriving early to help a homeowner." width="1440" height="820" src="/assets/site-home-hero-image-1.webp" alt="Lone Star Plumbing Co. service van parked on a Texas residential street at golden morning light">
+  </div>
+
+  <!-- Scrim overlay -->
+  <div class="home-hero-scrim" aria-hidden="true"></div>
+
+  <!-- Main content -->
+  <div class="home-hero-container">
+    <div class="home-hero-card">
+      <!-- Overline label with lone star accent -->
+      <div class="home-hero-overline">
+        <svg data-no-icon-edit="true" aria-hidden="true" class="home-hero-star" viewBox="0 0 14 14" width="14" height="14" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="7,0.5 8.73,5.1 13.6,5.1 9.7,8.15 11.1,13 7,10.1 2.9,13 4.3,8.15 0.4,5.1 5.27,5.1" fill="#C89B3C"></polygon>
+        </svg>
+        <span class="home-hero-overline-text">Texas-Proud &amp; Locally Owned</span>
+      </div>
+
+      <!-- Brass accent rule -->
+      <div class="home-hero-brass-rule" aria-hidden="true"></div>
+
+      <!-- Headline -->
+      <h1 class="home-hero-h1">Fast, Reliable Plumbing<br><span class="home-hero-h1-accent">When Texas Needs It Most</span></h1>
+
+      <!-- Subtitle -->
+      <h3 class="home-hero-subtitle">Emergency response, licensed expertise, and local trust — Lone Star Plumbing Co. shows up fast for every home and business in our community.</h3>
+
+      <!-- CTA buttons -->
+      <div class="home-hero-ctas">
+        
+        <a href="/services" class="home-hero-btn-secondary">
+          <i class="fas fa-wrench" aria-hidden="true"></i>
+          View All Services
+        </a>
+      </div>
+
+      <!-- Trust row -->
+      <div class="home-hero-trust-row">
+        <div class="home-hero-trust-item">
+          <i class="fas fa-map-marker-alt home-hero-trust-icon" aria-hidden="true"></i>
+          <span class="home-hero-trust-label">Locally Owned</span>
+        </div>
+        <div class="home-hero-trust-divider" aria-hidden="true"></div>
+        <div class="home-hero-trust-item">
+          <i class="fas fa-bolt home-hero-trust-icon" aria-hidden="true"></i>
+          <span class="home-hero-trust-label">Fast Response</span>
+        </div>
+        <div class="home-hero-trust-divider" aria-hidden="true"></div>
+        <div class="home-hero-trust-item">
+          <i class="fas fa-building home-hero-trust-icon" aria-hidden="true"></i>
+          <span class="home-hero-trust-label">Residential &amp; Commercial</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom SVG divider transitioning to warm white next section -->
+  <div class="home-hero-divider-wrapper" aria-hidden="true">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1440 72" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,72 L0,38 Q120,28 240,36 T480,30 Q600,24 720,34 T960,28 Q1080,22 1200,32 T1440,26 L1440,72 Z" fill="var(--bg-light)"></path>
+    </svg>
+  </div>
+</section>
+
+<section data-band-index="1" class="home-services-section" data-layout-spec="Home-services">
+  <div class="home-services-container">
+
+    <!-- Intro Block -->
+    <div class="home-services-intro">
+      <div class="home-services-overline">
+        <svg data-no-icon-edit="true" aria-hidden="true" width="60" height="2" viewBox="0 0 60 2" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="2" fill="var(--accent)"></rect></svg>
+        <span class="home-services-label">
+          <svg data-no-icon-edit="true" aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-right:6px;"><polygon points="7,0 8.8,5 14,5 9.8,8.1 11.5,13 7,10 2.5,13 4.2,8.1 0,5 5.2,5" fill="var(--accent)"></polygon></svg>
+          Our Services
+        </span>
+        <svg data-no-icon-edit="true" aria-hidden="true" width="60" height="2" viewBox="0 0 60 2" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="2" fill="var(--accent)"></rect></svg>
+      </div>
+      <h2 class="home-services-heading">Full-Service Residential &amp; Commercial Plumbing Across Texas</h2>
+      <p class="home-services-subtext">From burst pipes at midnight to scheduled water heater replacements, Lone Star Plumbing Co. delivers expert residential plumbing services — and so much more — to homes and businesses throughout our local Texas community. One call gets you a licensed pro who shows up fast and gets it done right.</p>
+    </div>
+
+    <!-- Service Grid -->
+    <div class="home-services-grid">
+
+      <!-- Card 1: Emergency Plumbing -->
+      <article class="home-services-card">
+        <div class="home-services-card-img-wrap">
+          <img loading="lazy" decoding="async" data-placeholder="home-services-image-1" data-context="A licensed plumber in a Lone Star Plumbing Co. uniform urgently repairing a burst pipe under a sink, water spraying, emergency tools on the floor, residential kitchen setting, Texas home interior, dramatic lighting conveying urgency and fast response" width="600" height="400" src="/assets/site-home-services-image-1.webp" alt="Emergency plumbing repair — burst pipe under a sink">
+        </div>
+        <div class="home-services-card-body">
+          <div class="home-services-icon-wrap">
+            <svg data-element-type="icon" data-icon-type="svg" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="2"></circle>
+              <path d="M16 8v8l5 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              <path d="M10 22l-2 2" stroke="var(--secondary)" stroke-width="2" stroke-linecap="round"></path>
+            </svg>
+          </div>
+          <h3 class="home-services-card-title">Emergency Plumbing</h3>
+          <p>Burst pipes, flooding, or a sudden loss of water pressure? We're on call 24/7 to respond fast — because plumbing emergencies don't wait for business hours.</p>
+          <a href="/contact" class="home-services-link">Get Emergency Help <svg aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-left:4px;"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></a>
+        </div>
+      </article>
+
+      <!-- Card 2: Drain Cleaning -->
+      <article class="home-services-card">
+        <div class="home-services-card-img-wrap">
+          <img loading="lazy" decoding="async" data-placeholder="home-services-image-2" data-context="A plumber using a professional drain snake or hydro-jetting equipment to clear a clogged drain in a Texas home bathroom, close-up of the drain and tools, clean professional work environment, trustworthy and skilled tradesman" width="600" height="400" src="/assets/site-home-services-image-2.webp" alt="Professional drain cleaning service with hydro-jet equipment">
+        </div>
+        <div class="home-services-card-body">
+          <div class="home-services-icon-wrap">
+            <svg data-element-type="icon" data-icon-type="svg" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M6 10c0-2.2 1.8-4 4-4h12c2.2 0 4 1.8 4 4v12c0 2.2-1.8 4-4 4H10c-2.2 0-4-1.8-4-4V10z" stroke="currentColor" stroke-width="2"></path>
+              <circle cx="16" cy="16" r="4" stroke="currentColor" stroke-width="2"></circle>
+              <path d="M16 8v4M16 20v4M8 16h4M20 16h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+            </svg>
+          </div>
+          <h3 class="home-services-card-title">Drain Cleaning</h3>
+          <p>Slow drains and stubborn clogs are no match for our high-pressure hydro-jetting and professional snaking services. We clear it completely — not just temporarily.</p>
+          <a href="/contact" class="home-services-link">Schedule a Cleaning <svg aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-left:4px;"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></a>
+        </div>
+      </article>
+
+      <!-- Card 3: Water Heater -->
+      <article class="home-services-card">
+        <div class="home-services-card-img-wrap">
+          <img loading="lazy" decoding="async" data-placeholder="home-services-image-3" data-context="A plumber installing or repairing a modern tankless water heater in a Texas residential utility room, professional tools laid out neatly, clean and organized workspace, Lone Star Plumbing Co. branding visible on uniform" width="600" height="400" src="/assets/site-home-services-image-3.webp" alt="Water heater repair and installation service">
+        </div>
+        <div class="home-services-card-body">
+          <div class="home-services-icon-wrap">
+            <svg data-element-type="icon" data-icon-type="svg" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="10" y="4" width="12" height="20" rx="6" stroke="currentColor" stroke-width="2"></rect>
+              <path d="M16 10v6" stroke="var(--secondary)" stroke-width="2" stroke-linecap="round"></path>
+              <path d="M7 26h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+              <path d="M16 24v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+            </svg>
+          </div>
+          <h3 class="home-services-card-title">Water Heater Repair &amp; Replacement</h3>
+          <p>No hot water is a serious disruption. We repair all makes and models — and install energy-efficient tankless units — to restore comfort quickly and reliably.</p>
+          <a href="/contact" class="home-services-link">Get a Free Estimate <svg aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-left:4px;"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></a>
+        </div>
+      </article>
+
+      <!-- Card 4: Leak Detection -->
+      <article class="home-services-card">
+        <div class="home-services-card-img-wrap">
+          <img loading="lazy" decoding="async" data-placeholder="home-services-image-4" data-context="A plumber using advanced electronic leak detection equipment on a residential wall or floor in a Texas home, scanning for hidden water leaks without destructive demolition, professional and precise, modern diagnostic tools" width="600" height="400" src="/assets/site-home-services-image-4.webp" alt="Advanced leak detection service for hidden water leaks">
+        </div>
+        <div class="home-services-card-body">
+          <div class="home-services-icon-wrap">
+            <svg data-element-type="icon" data-icon-type="svg" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <circle cx="14" cy="14" r="8" stroke="currentColor" stroke-width="2"></circle>
+              <path d="M20 20l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+              <circle cx="14" cy="14" r="3" stroke="var(--accent)" stroke-width="1.5"></circle>
+              <path d="M14 9v2M14 17v2M9 14h2M17 14h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+            </svg>
+          </div>
+          <h3 class="home-services-card-title">Leak Detection</h3>
+          <p>Hidden leaks waste water and damage your home silently. Our non-invasive electronic detection pinpoints leaks behind walls and under slabs before they become disasters.</p>
+          <a href="/contact" class="home-services-link">Find My Leak <svg aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-left:4px;"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></a>
+        </div>
+      </article>
+
+      <!-- Card 5: Sewer Line -->
+      <article class="home-services-card">
+        <div class="home-services-card-img-wrap">
+          <img loading="lazy" decoding="async" data-placeholder="home-services-image-5" data-context="A plumbing crew performing sewer line inspection or trenchless sewer repair in a Texas residential yard, camera inspection equipment visible, professional team in branded uniforms, clean organized work site" width="600" height="400" src="/assets/site-home-services-image-5.webp" alt="Sewer line inspection and trenchless repair service">
+        </div>
+        <div class="home-services-card-body">
+          <div class="home-services-icon-wrap">
+            <svg data-element-type="icon" data-icon-type="svg" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M4 22c0-4 4-8 12-8s12 4 12 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+              <path d="M4 22h24" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+              <path d="M10 22v4M16 22v4M22 22v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+              <circle cx="16" cy="10" r="4" stroke="currentColor" stroke-width="2"></circle>
+              <path d="M16 14v2" stroke="var(--secondary)" stroke-width="2" stroke-linecap="round"></path>
+            </svg>
+          </div>
+          <h3 class="home-services-card-title">Sewer Line Solutions</h3>
+          <p>From camera inspections to trenchless pipe lining and full sewer replacements, we handle the underground issues that cause the biggest headaches — with minimal disruption to your yard.</p>
+          <a href="/contact" class="home-services-link">Inspect My Sewer <svg aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-left:4px;"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></a>
+        </div>
+      </article>
+
+      <!-- Card 6: Home Sale Inspections -->
+      <article class="home-services-card">
+        <div class="home-services-card-img-wrap">
+          <img loading="lazy" decoding="async" data-placeholder="home-services-image-6" data-context="A professional plumber conducting a thorough plumbing inspection in a Texas home for a real estate sale, checking under-sink plumbing, water heater, and fixtures, holding a clipboard and writing a report, clean suburban home interior" width="600" height="400" src="/assets/site-home-services-image-6.webp" alt="Pre-sale plumbing inspection for home buyers and sellers">
+        </div>
+        <div class="home-services-card-body">
+          <div class="home-services-icon-wrap">
+            <svg data-element-type="icon" data-icon-type="svg" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="6" y="4" width="20" height="24" rx="2" stroke="currentColor" stroke-width="2"></rect>
+              <path d="M11 12h10M11 17h10M11 22h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+              <path d="M20 20l2 2 4-4" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </div>
+          <h3 class="home-services-card-title">Pre-Sale Plumbing Inspections</h3>
+          <p>Buying or selling a Texas home? Our thorough plumbing inspection report gives buyers peace of mind and helps sellers avoid costly surprises at closing. Trusted by local realtors.</p>
+          <a href="/contact" class="home-services-link">Book an Inspection <svg aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-left:4px;"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></a>
+        </div>
+      </article>
+
+    </div>
+    <!-- End Grid -->
+
+    <!-- Bottom CTA -->
+    <div class="home-services-cta-row">
+      <p class="home-services-cta-text">Not sure which service you need? Give us a call — we'll walk you through it.</p>
+      <a href="/contact" class="home-services-btn-primary">Talk to a Plumber Today</a>
+    </div>
+
+  </div>
+
+  <!-- Bottom Divider: subtle downward curve with brass accent line -->
+  <div class="home-services-divider-wrapper">
+    <div class="home-services-brass-line" aria-hidden="true"></div>
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,70 L0,30 Q300,0 600,18 Q900,36 1200,10 L1200,70 Z" fill="#24323C"></path>
+    </svg>
+  </div>
+
+</section>
+
+<section data-band-index="2" class="home-testimonials-section" data-layout-spec="Home-testimonials">
+
+  <!-- Texas watermark decoration -->
+  <div class="home-testimonials-section__watermark" aria-hidden="true">
+    <svg viewBox="0 0 400 380" fill="none" xmlns="http://www.w3.org/2000/svg" data-no-icon-edit="true" aria-hidden="true">
+      <path d="M200,20 L220,80 L290,80 L235,118 L255,178 L200,140 L145,178 L165,118 L110,80 L180,80 Z M60,100 L80,60 L100,40 L140,30 L180,20 L200,10 L220,20 L260,30 L300,40 L320,60 L340,100 L360,140 L370,180 L365,220 L350,260 L330,290 L300,320 L270,345 L240,360 L200,370 L160,360 L130,345 L100,320 L70,290 L50,260 L35,220 L30,180 L40,140 Z" fill="#FAF8F4" opacity="0.04"></path>
+    </svg>
+  </div>
+
+  <div class="home-testimonials-section__container">
+
+    <!-- Section Header -->
+    <div class="home-testimonials-section__header">
+      <div class="home-testimonials-section__overline">
+        <svg data-no-icon-edit="true" aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 0L8.57 4.83H13.66L9.54 7.82L11.11 12.66L7 9.67L2.89 12.66L4.46 7.82L0.34 4.83H5.43Z" fill="#C89B3C"></path></svg>
+        <span>What Our Customers Say</span>
+        <svg data-no-icon-edit="true" aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 0L8.57 4.83H13.66L9.54 7.82L11.11 12.66L7 9.67L2.89 12.66L4.46 7.82L0.34 4.83H5.43Z" fill="#C89B3C"></path></svg>
+      </div>
+      <h2 class="home-testimonials-section__title">Trusted by Texas Homeowners</h2>
+      <p class="home-testimonials-section__intro">From burst pipes at midnight to full residential plumbing services, our customers count on us when it matters most. Here's what they have to say about Lone Star Plumbing Co.</p>
+    </div>
+
+    <!-- Reviews Grid -->
+    <div class="home-testimonials-section__grid">
+
+      <!-- Review 1 -->
+      <article class="home-testimonials-section__card">
+        <div class="home-testimonials-section__quote-icon" aria-hidden="true">
+          <svg data-element-type="icon" data-icon-type="svg" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 14H10C10 10.69 12.69 8 16 8V4C10.48 4 6 8.48 6 14V26H14V14H4ZM20 14H26C26 10.69 28.69 8 32 8V4C26.48 4 22 8.48 22 14V26H30V14H20Z" fill="#C89B3C" opacity="0.6"></path></svg>
+        </div>
+        <div class="home-testimonials-section__stars" aria-label="5 out of 5 stars">
+          <svg data-no-icon-edit="true" aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 0L9.8 5.5H15.6L10.9 8.9L12.7 14.4L8 11L3.3 14.4L5.1 8.9L0.4 5.5H6.2Z" fill="#C89B3C"></path></svg>
+          <svg data-no-icon-edit="true" aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 0L9.8 5.5H15.6L10.9 8.9L12.7 14.4L8 11L3.3 14.4L5.1 8.9L0.4 5.5H6.2Z" fill="#C89B3C"></path></svg>
+          <svg data-no-icon-edit="true" aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 0L9.8 5.5H15.6L10.9 8.9L12.7 14.4L8 11L3.3 14.4L5.1 8.9L0.4 5.5H6.2Z" fill="#C89B3C"></path></svg>
+          <svg data-no-icon-edit="true" aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 0L9.8 5.5H15.6L10.9 8.9L12.7 14.4L8 11L3.3 14.4L5.1 8.9L0.4 5.5H6.2Z" fill="#C89B3C"></path></svg>
+          <svg data-no-icon-edit="true" aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 0L9.8 5.5H15.6L10.9 8.9L12.7 14.4L8 11L3.3 14.4L5.1 8.9L0.4 5.5H6.2Z" fill="#C89B3C"></path></svg>
+        </div>
+        <blockquote class="home-testimonials-section__quote">
+          <p>"Water heater blew at 11 PM on a Sunday. I called Lone Star and they had someone at my door within the hour. No price gouging, no runaround — just honest, fast work. These guys are the real deal for emergency plumbing in Austin."</p>
+        </blockquote>
+        <footer class="home-testimonials-section__author">
+          <div class="home-testimonials-section__avatar">
+            <span>MR</span>
+          </div>
+          <div class="home-testimonials-section__author-info">
+            <strong>Marcus R.</strong>
+            <small>Homeowner — Austin, TX</small>
+          </div>
+        </footer>
+      </article>
+
+      <!-- Review 2 (Featured/Center) -->
+      <article class="home-testimonials-section__card home-testimonials-section__card--featured">
+        <div class="home-testimonials-section__featured-badge">Most Helpful</div>
+        <div class="home-testimonials-section__quote-icon" aria-hidden="true">
+          <svg data-element-type="icon" data-icon-type="svg" width="36" height="36" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 14H10C10 10.69 12.69 8 16 8V4C10.48 4 6 8.48 6 14V26H14V14H4ZM20 14H26C26 10.69 28.69 8 32 8V4C26.48 4 22 8.48 22 14V26H30V14H20Z" fill="#C89B3C" opacity="0.8"></path></svg>
+        </div>
+        <div class="home-testimonials-section__stars" aria-label="5 out of 5 stars">
+          <svg data-no-icon-edit="true" aria-hidden="true" width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M8 0L9.8 5.5H15.6L10.9 8.9L12.7 14.4L8 11L3.3 14.4L5.1 8.9L0.4 5.5H6.2Z" fill="#C89B3C"></path></svg>
+          <svg data-no-icon-edit="true" aria-hidden="true" width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M8 0L9.8 5.5H15.6L10.9 8.9L12.7 14.4L8 11L3.3 14.4L5.1 8.9L0.4 5.5H6.2Z" fill="#C89B3C"></path></svg>
+          <svg data-no-icon-edit="true" aria-hidden="true" width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M8 0L9.8 5.5H15.6L10.9 8.9L12.7 14.4L8 11L3.3 14.4L5.1 8.9L0.4 5.5H6.2Z" fill="#C89B3C"></path></svg>
+          <svg data-no-icon-edit="true" aria-hidden="true" width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M8 0L9.8 5.5H15.6L10.9 8.9L12.7 14.4L8 11L3.3 14.4L5.1 8.9L0.4 5.5H6.2Z" fill="#C89B3C"></path></svg>
+          <svg data-no-icon-edit="true" aria-hidden="true" width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M8 0L9.8 5.5H15.6L10.9 8.9L12.7 14.4L8 11L3.3 14.4L5.1 8.9L0.4 5.5H6.2Z" fill="#C89B3C"></path></svg>
+        </div>
+        <blockquote class="home-testimonials-section__quote home-testimonials-section__quote--featured">
+          <p>"I manage three rental properties in the Hill Country and Lone Star is the only plumbing company I trust. They give me straight answers, clear pricing, and their technicians always leave the place clean. That kind of professionalism is rare — it feels like expert services plumbing done right."</p>
+        </blockquote>
+        <footer class="home-testimonials-section__author">
+          <div class="home-testimonials-section__avatar home-testimonials-section__avatar--featured">
+            <span>DT</span>
+          </div>
+          <div class="home-testimonials-section__author-info">
+            <strong>Diane T.</strong>
+            <small>Property Manager — Fredericksburg, TX</small>
+          </div>
+        </footer>
+        <div class="home-testimonials-section__accent-rule" aria-hidden="true"></div>
+      </article>
+
+      <!-- Review 3 -->
+      <article class="home-testimonials-section__card">
+        <div class="home-testimonials-section__quote-icon" aria-hidden="true">
+          <svg data-element-type="icon" data-icon-type="svg" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 14H10C10 10.69 12.69 8 16 8V4C10.48 4 6 8.48 6 14V26H14V14H4ZM20 14H26C26 10.69 28.69 8 32 8V4C26.48 4 22 8.48 22 14V26H30V14H20Z" fill="#C89B3C" opacity="0.6"></path></svg>
+        </div>
+        <div class="home-testimonials-section__stars" aria-label="5 out of 5 stars">
+          <svg data-no-icon-edit="true" aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 0L9.8 5.5H15.6L10.9 8.9L12.7 14.4L8 11L3.3 14.4L5.1 8.9L0.4 5.5H6.2Z" fill="#C89B3C"></path></svg>
+          <svg data-no-icon-edit="true" aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 0L9.8 5.5H15.6L10.9 8.9L12.7 14.4L8 11L3.3 14.4L5.1 8.9L0.4 5.5H6.2Z" fill="#C89B3C"></path></svg>
+          <svg data-no-icon-edit="true" aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 0L9.8 5.5H15.6L10.9 8.9L12.7 14.4L8 11L3.3 14.4L5.1 8.9L0.4 5.5H6.2Z" fill="#C89B3C"></path></svg>
+          <svg data-no-icon-edit="true" aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 0L9.8 5.5H15.6L10.9 8.9L12.7 14.4L8 11L3.3 14.4L5.1 8.9L0.4 5.5H6.2Z" fill="#C89B3C"></path></svg>
+          <svg data-no-icon-edit="true" aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 0L9.8 5.5H15.6L10.9 8.9L12.7 14.4L8 11L3.3 14.4L5.1 8.9L0.4 5.5H6.2Z" fill="#C89B3C"></path></svg>
+        </div>
+        <blockquote class="home-testimonials-section__quote">
+          <p>"Had a slab leak that two other companies couldn't locate. Lone Star found it in under an hour and walked me through every step of the repair. Respectful, on time, and never tried to upsell me on things I didn't need. Highly recommend for any residential plumbing work."</p>
+        </blockquote>
+        <footer class="home-testimonials-section__author">
+          <div class="home-testimonials-section__avatar">
+            <span>JL</span>
+          </div>
+          <div class="home-testimonials-section__author-info">
+            <strong>James L.</strong>
+            <small>Homeowner — San Antonio, TX</small>
+          </div>
+        </footer>
+      </article>
+
+    </div>
+
+    <!-- Local Trust Strip -->
+    <div class="home-testimonials-section__trust-strip">
+      <div class="home-testimonials-section__trust-item">
+        <div class="home-testimonials-section__trust-icon">
+          <svg data-element-type="icon" data-icon-type="svg" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"></circle><path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+        </div>
+        <span>Fast Arrival — Day or Night</span>
+      </div>
+      <div class="home-testimonials-section__trust-divider" aria-hidden="true"></div>
+      <div class="home-testimonials-section__trust-item">
+        <div class="home-testimonials-section__trust-icon">
+          <svg data-element-type="icon" data-icon-type="svg" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2Z" stroke="currentColor" stroke-width="2"></path><circle cx="12" cy="9" r="3" stroke="currentColor" stroke-width="2"></circle></svg>
+        </div>
+        <span>Licensed &amp; Background-Checked Techs</span>
+      </div>
+      <div class="home-testimonials-section__trust-divider" aria-hidden="true"></div>
+      <div class="home-testimonials-section__trust-item">
+        <div class="home-testimonials-section__trust-icon">
+          <svg data-element-type="icon" data-icon-type="svg" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </div>
+        <span>Clear Communication, Always</span>
+      </div>
+      <div class="home-testimonials-section__trust-divider" aria-hidden="true"></div>
+      <div class="home-testimonials-section__trust-item">
+        <div class="home-testimonials-section__trust-icon">
+          <svg data-element-type="icon" data-icon-type="svg" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2"></path><path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </div>
+        <span>Upfront Pricing, No Surprises</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom Torn-Paper Divider -->
+  <div class="home-testimonials-section__divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Slate-blue shadow layer -->
+      <path d="M0,90 L0,48 Q30,55 60,44 T130,50 Q170,44 210,52 T290,46 Q330,54 380,42 T460,50 Q510,44 560,52 T640,46 Q680,54 730,42 T810,50 Q860,44 910,52 T990,46 Q1040,54 1090,42 T1170,50 Q1210,44 1260,52 T1340,46 L1380,50 Q1410,44 1440,48 L1440,90 Z" fill="var(--bg-light)" opacity="0.35"></path>
+      <!-- Warm white torn edge -->
+      <path d="M0,90 L0,52 Q25,44 55,56 T120,48 Q165,42 205,54 T280,48 Q325,42 370,54 T450,46 Q495,56 545,44 T625,52 Q665,44 715,56 T800,48 Q845,42 890,54 T970,46 Q1015,56 1060,44 T1140,52 Q1185,44 1225,56 T1310,48 L1360,54 Q1400,46 1440,52 L1440,90 Z" fill="var(--bg-light)"></path>
+    </svg>
+  </div>
+
+</section>
+
+<section data-band-index="3" class="home-cta-section" data-layout-spec="Home-cta">
+  <div class="home-cta-container">
+
+    <!-- Content Column -->
+    <div class="home-cta-content">
+      <!-- Overline label -->
+      <div class="home-cta-overline">
+        <svg data-no-icon-edit="true" aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+          <polygon points="7,0 8.8,5.2 14,5.2 9.6,8.4 11.4,13.6 7,10.4 2.6,13.6 4.4,8.4 0,5.2 5.2,5.2" fill="#C89B3C"></polygon>
+        </svg>
+        <span>Texas-Proud Plumbing</span>
+      </div>
+
+      <h2 class="home-cta-heading">Ready for Fast, Reliable Residential Plumbing Services?</h2>
+
+      <p class="home-cta-body">Whether you've got a burst pipe at midnight or just need a routine fix scheduled on your terms, Lone Star Plumbing Co. shows up same day with honest pricing and hometown care. We treat every home like it's our own — because this is our community too.</p>
+
+      <!-- CTA Buttons -->
+      <div class="home-cta-buttons">
+        
+        <a href="/contact" class="home-cta-btn-secondary">
+          <i class="fa fa-calendar" aria-hidden="true"></i>
+          Schedule Service
+        </a>
+      </div>
+
+      <!-- Reassurance Row -->
+      <div class="home-cta-reassurance">
+        <div class="home-cta-reassurance-item">
+          <span class="home-cta-reassurance-icon">
+            <svg data-element-type="icon" data-icon-type="svg" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M11 2L13.2 7.6H19.2L14.5 11.2L16.7 16.8L11 13.2L5.3 16.8L7.5 11.2L2.8 7.6H8.8L11 2Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" fill="none"></path>
+            </svg>
+          </span>
+          <span class="home-cta-reassurance-label">Licensed &amp; Insured</span>
+        </div>
+        <div class="home-cta-reassurance-divider" aria-hidden="true"></div>
+        <div class="home-cta-reassurance-item">
+          <span class="home-cta-reassurance-icon">
+            <svg data-element-type="icon" data-icon-type="svg" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <circle cx="11" cy="11" r="8.5" stroke="currentColor" stroke-width="1.8"></circle>
+              <path d="M11 6.5V11.5L14 13.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+            </svg>
+          </span>
+          <span class="home-cta-reassurance-label">On-Time, Every Time</span>
+        </div>
+        <div class="home-cta-reassurance-divider" aria-hidden="true"></div>
+        <div class="home-cta-reassurance-item">
+          <span class="home-cta-reassurance-icon">
+            <svg data-element-type="icon" data-icon-type="svg" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M4 11.5L8.5 16L18 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </span>
+          <span class="home-cta-reassurance-label">Clean Work Areas</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Image Column -->
+    <div class="home-cta-image-col">
+      <!-- Brass backplate decoration -->
+      <div class="home-cta-backplate" aria-hidden="true"></div>
+
+      <!-- Main image tile -->
+      <div class="home-cta-image-tile">
+        <img loading="lazy" decoding="async" data-placeholder="home-cta-image-1" data-context="A friendly, professional male plumber in a navy uniform and tool belt standing at the front entry of a warm Texas suburban home, smiling confidently, holding a clipboard, with a utility area visible behind him — natural daylight, residential neighborhood feel, warm and trustworthy atmosphere" width="600" height="400" src="/assets/site-home-cta-image-1.webp" alt="Lone Star Plumbing Co. technician at a Texas home ready to help with residential plumbing services">
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Gradient fade bottom edge -->
+  <div class="home-cta-bottom-fade" aria-hidden="true"></div>
+</section>
+  </main>
+  
+  <footer class="site-footer" aria-label="Site Footer"> <div class="footer-top"> <div class="footer-container"> <div class="footer-grid"> <!-- Column 1: Company Info --> <div class="footer-col footer-col--brand"> <a href="/" class="footer-logo-link" aria-label="Lone Star Plumbing Co. Home"> <img src="/assets/lone-star-plumbing-co-home-services-plumbing-logo.webp" alt="Lone Star Plumbing Co." class="logo"> </a> <p class="footer-tagline">Texas-tough plumbing solutions for every home. Fast, reliable, and built on trust — because when water waits for no one, neither do we.</p> <div class="footer-badge"><i class="fas fa-shield-alt"></i> Licensed &amp; Insured</div> <div class="footer-badge"><i class="fas fa-clock"></i> 24/7 Emergency Service</div> </div> <!-- Column 2: Quick Links --> <div class="footer-col footer-col--links"> <h3 class="footer-heading">Quick Links</h3> <ul class="footer-nav"> <li><a href="/"><i class="fas fa-chevron-right"></i> Home</a></li> <li><a href="/services"><i class="fas fa-chevron-right"></i> Services</a></li> <li><a href="/about"><i class="fas fa-chevron-right"></i> About</a></li> <li><a href="/contact"><i class="fas fa-chevron-right"></i> Contact</a></li> </ul> </div> <!-- Column 3: Contact Info --> <div class="footer-col footer-col--contact"> <h3 class="footer-heading">Contact Us</h3> <ul class="footer-contact"> <li> <span class="contact-icon"><i class="fas fa-envelope"></i></span> <span class="contact-text"><a href="mailto:[business_email]">[business_email]</a></span> </li> <li> <span class="contact-icon"><i class="fas fa-phone"></i></span> <span class="contact-text"><a href="tel:[business_phone]">[business_phone]</a></span> </li> <li><a href="/"><span class="contact-icon"><i class="fas fa-map-marker-alt"></i></span> <span class="contact-text">[business_address]</span></a></li> </ul> <div class="footer-hours"> <h4 class="footer-hours-title"><i class="fas fa-calendar-alt"></i> Business Hours</h4> <ul class="hours-list"> <li><a href="/"><span>Mon – Fri</span><span>7:00 AM – 6:00 PM</span></a></li> <li><a href="/"><span>Saturday</span><span>8:00 AM – 4:00 PM</span></a></li> <li><a href="/"><span>Sunday</span><span>Closed</span></a></li> <li><a href="/"><span class="contact-icon"><i class="fas fa-map-marker-alt" aria-hidden="true"></i></span><span class="contact-text">[business_address]</span></a></li><li><span class="contact-icon"><i class="fas fa-phone" aria-hidden="true"></i></span><span class="contact-text"><a href="tel:[business_phone]">[business_phone]</a></span></li><li><span class="contact-icon"><i class="fas fa-envelope" aria-hidden="true"></i></span><span class="contact-text"><a href="mailto:[business_email]">[business_email]</a></span></li></ul> </div> </div> <!-- Column 4: Social Media --> <div class="footer-col footer-col--social"> <h3 class="footer-heading">Follow Us</h3> <p class="footer-social-desc">Stay connected for tips, updates, and special offers.</p> <div class="footer-social-links">    </div> <div class="footer-cta"> <a href="/contact" class="footer-cta-btn">Get a Free Quote</a> </div> </div> </div> </div> </div> <!-- Bottom Bar --> <div class="footer-bottom"> <div class="footer-container"> <div class="footer-bottom-inner"> <p class="footer-copyright">© 2026 Lone Star Plumbing Co.. All rights reserved.</p> <div class="footer-legal"> <a href="/privacy">Privacy Policy</a> <span class="footer-legal-divider">|</span> <a href="/terms">Terms &amp; Conditions</a> <span class="footer-legal-divider">|</span> <a href="/accessibility">Accessibility</a> <span class="footer-legal-divider">|</span> <a href="https://zappy5.com" target="_blank" class="zappy-attribution">Generated by Zappy</a> </div> </div> </div> </div> </footer>
+  
+  <a href="https://wa.me/[whatsapp_handle]" class="whatsapp-float" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+  
+  <div data-integration="accessibility:toolbar"></div>
+
+    <script src="/script.js"></script>
+
+    <script id="zappy-mobile-submenu-script">
+    (function() {
+      function initMobileSubmenuToggles() {
+        if (window.innerWidth > 768) {
+          document.querySelectorAll('.mobile-submenu-toggle').forEach(function(btn) { btn.remove(); });
+          document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) { menu.classList.remove('mobile-expanded'); });
+          return;
+        }
+        var items = document.querySelectorAll('.nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu)');
+        items.forEach(function(li) {
+          if (li.querySelector('.mobile-submenu-toggle')) return;
+          var submenu = li.querySelector('.sub-menu');
+          var parentLink = li.querySelector(':scope > a');
+          if (!submenu || !parentLink) return;
+          var toggleBtn = document.createElement('button');
+          toggleBtn.className = 'mobile-submenu-toggle';
+          toggleBtn.setAttribute('aria-label', 'Toggle submenu');
+          toggleBtn.setAttribute('type', 'button');
+          parentLink.insertAdjacentElement('afterend', toggleBtn);
+          toggleBtn.addEventListener('click', function(e) {
+            e.preventDefault(); e.stopPropagation();
+            document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) {
+              if (menu !== submenu) { menu.classList.remove('mobile-expanded'); var t = menu.parentElement.querySelector('.mobile-submenu-toggle'); if(t) t.classList.remove('expanded'); }
+            });
+            submenu.classList.toggle('mobile-expanded');
+            toggleBtn.classList.toggle('expanded');
+          });
+        });
+      }
+      if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initMobileSubmenuToggles); }
+      else { initMobileSubmenuToggles(); }
+      var resizeTimer; window.addEventListener('resize', function() { clearTimeout(resizeTimer); resizeTimer = setTimeout(initMobileSubmenuToggles, 250); });
+      // Re-initialize when mobile menu becomes visible (MutationObserver)
+      var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'attributes') {
+            var target = mutation.target;
+            if (target.classList && (target.classList.contains('active') || target.classList.contains('open'))) {
+              setTimeout(initMobileSubmenuToggles, 100);
+            }
+          }
+        });
+      });
+      setTimeout(function() {
+        document.querySelectorAll('.mobile-menu, .nav-menu, #navMenu, nav').forEach(function(menu) {
+          observer.observe(menu, { attributes: true, attributeFilter: ['class', 'style'] });
+        });
+      }, 500);
+    })();
+    </script>
+</body>
+</html>

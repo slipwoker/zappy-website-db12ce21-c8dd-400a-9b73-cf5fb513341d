@@ -1,0 +1,79 @@
+# Lone Star Plumbing Co. — Generative Engine Optimization Map
+
+> A modern plumbing business rooted in Texas identity, combining a trustworthy local feel with a bold, action-driven design. The brand emphasizes reliability and urgency — especially for emergency plumbing situations — while projecting a strong sense of community and regional pride. The website should make visitors feel they're dealing with a dependable, hometown expert who shows up fast when it matters most.
+
+---
+
+## Pages
+
+### Home
+https://example.com
+When pipes burst and time is critical, Lone Star Plumbing Co. delivers action plumbing heating and air solutions fast. Trusted Texas experts ready 24/7 — call now!
+
+### Services
+https://example.com/services
+From leaks to full installs, our residential plumbing services cover it all. Expert services plumbing heating air &amp; electrical — dependable work, honest pricing, zero shortcuts.
+
+### About
+https://example.com/about
+We&#39;re not just plumbers — we&#39;re your neighbors. Lone Star Plumbing Co. combines valley plumbing home center inc values with bold Texas pride and a crew that truly shows up for you.
+
+### Contact
+https://example.com/contact
+Don&#39;t wait on a busted pipe — contact Lone Star Plumbing Co. today for action plumbing heating and air support. Fast response, real people, real fixes. Get your free quote now!
+
+## Legal & Policy
+
+### Privacy Policy
+https://example.com/privacy
+Information about how user data is collected, stored, and protected.
+
+### Terms & Conditions
+https://example.com/terms
+Legal terms describing service usage, rights, and policies.
+
+### Accessibility Statement
+https://example.com/accessibility
+Information about WCAG compliance and accessibility features.
+
+---
+
+## How to Contact Us
+
+- (No contact details configured yet.)
+
+### Contact form
+- URL: https://example.com/contact
+- Endpoint: https://example.com/api/email/contact-form
+- Method: POST
+- Content-Type: application/json
+- Fields:
+  - `name` (text, required)
+  - `phone` (tel, required)
+  - `email` (email, required)
+  - `message` (textarea, required)
+  - `privacy_consent` (checkbox, required)
+
+---
+
+# Business Context (for LLM understanding)
+
+## About Lone Star Plumbing Co.
+A modern plumbing business rooted in Texas identity, combining a trustworthy local feel with a bold, action-driven design. The brand emphasizes reliability and urgency — especially for emergency plumbing situations — while projecting a strong sense of community and regional pride. The website should make visitors feel they're dealing with a dependable, hometown expert who shows up fast when it matters most.
+
+## Target Audience
+- local Texas homeowners and businesses needing plumbing services
+- Local Texas Homeowners
+- Texas-Based Small Businesses
+- Home Sellers
+
+## Industry
+Home Services / Plumbing
+
+---
+
+# Machine-readable feeds
+
+- Sitemap (XML): https://example.com/sitemap.xml
+- Robots: https://example.com/robots.txt
+- Flattened page text (for LLMs): https://example.com/llms-full.txt
